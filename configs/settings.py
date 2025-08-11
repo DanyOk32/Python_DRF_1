@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Реєструвати кожну Апу сюди!!!
-    'second',
-    'fruits',
+    'core',
+    'apps.pizza',
 ]
 
 MIDDLEWARE = [

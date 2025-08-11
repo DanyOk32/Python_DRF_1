@@ -14,15 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
-from first.views import FirstView, SecondView
-from second.views import UserListCreateView, GetUserById
-from fruits.views import FruitsView
+from django.urls import path, include
+
+
+
 urlpatterns = [
-    path("first", FirstView.as_view() ),
-    # path("second/<int:age>/<str:name>/<slug:asd>", SecondView.as_view() ),
-    # динамічні данні в урлі /<>/<>.... str - з пробілами, slug - Без пробілів
-    path("second", UserListCreateView.as_view() ),
-    path("second/id/<int:pk>", GetUserById.as_view() ),
-    path("fruits", FruitsView.as_view() ),
+    path('pizza', include('apps.pizza.urls')),
 ]
