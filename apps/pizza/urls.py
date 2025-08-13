@@ -1,8 +1,8 @@
 from django.urls import path
 
-from apps.pizza.views import PizzaCreateListView, PizzdaRetrieveUpdateDestroyView
+from apps.pizza.views import PizzaCreateListView, PizzaRetrieveUpdateDestroyView
 
 urlpatterns = [
     path('', PizzaCreateListView.as_view()),
-    path('/<int:pk>', PizzdaRetrieveUpdateDestroyView.as_view()),
+    path('/<int:pk>', PizzaRetrieveUpdateDestroyView.as_view()),
 ]
