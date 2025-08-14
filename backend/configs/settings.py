@@ -36,11 +36,15 @@ AUTH_USER_MODEL = 'user.UserModel'
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'django_filters',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'django_celery_beat',
+    'django_celery_results',
 
     # Реєструвати кожну Апу сюди!!!
     'core',
@@ -60,7 +64,7 @@ ROOT_URLCONF = 'configs.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'configs.wsgi.application'
+ASGI_APPLICATION = 'configs.asgi.application'
 
 
 # Database
@@ -84,8 +89,8 @@ DATABASES = {
         'NAME': os.environ.get('MYSQL_DATABASE'),
         'USER': os.environ.get('MYSQL_USER'),
         'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '3307'
+        'HOST': os.environ.get('MYSQL_HOST'),
+        'PORT': os.environ.get("PORT")
 
     }
 }
@@ -126,6 +131,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_ROOT = 'storage'
+MEDIA_URL = '/api/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

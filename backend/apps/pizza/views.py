@@ -1,5 +1,6 @@
 from rest_framework import generics, status
-from rest_framework.generics import GenericAPIView,ListAPIView , ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView, \
+    UpdateAPIView
 from rest_framework.mixins import (
     CreateModelMixin,
     DestroyModelMixin,
@@ -13,7 +14,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly, AllowAny
 from apps.pizza.filter import PizzaFilter
 from apps.pizza.models import PizzaModel
-from apps.pizza.serializers import PizzaSerializer
+from apps.pizza.serializers import PizzaSerializer, PizzaPhotoSerializer
+
 
 # class PizzaCreateListView(GenericAPIView):
 #   # class PizzaCreateListView(APIView):
@@ -34,10 +36,11 @@ from apps.pizza.serializers import PizzaSerializer
 
 class PizzaCreateListView(ListAPIView):
     # queryset = PizzaModel.objects.all()
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     serializer_class = PizzaSerializer
     queryset = PizzaModel.objects.all()
     filterset_class = PizzaFilter
+    permission_classes = (AllowAny,)
     # http_method_names = ['post', 'get']
     # def get_queryset(self):
     #     request:Request = self.request
@@ -50,6 +53,18 @@ class PizzaRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         request:Request = self.request
         return PizzaFilter(request.query_params)
+
+class PizzaAddPhotoView(UpdateAPIView):
+    serializer_class = PizzaPhotoSerializer
+    queryset = PizzaModel.objects.all()
+    http_method_names = ['put']
+    permission_classes = (AllowAny,)
+    def perform_update(self, serializer):
+        pizza = self.get_object()
+        pizza.photo.delete()
+        super().perform_update(serializer)
+
+
 
     # http_method_names = ['get', 'delete', 'put', 'patch']
 

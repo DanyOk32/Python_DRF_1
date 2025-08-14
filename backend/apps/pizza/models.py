@@ -5,6 +5,8 @@ from django.db import models
 from apps.pizza_shops.models import PizzaShopModel
 from django.core import validators as V
 
+from core.services.file_services import upload_pizza_photo
+
 
 class DaysChoices(models.TextChoices):
     MONDAY = 'MONDAY'
@@ -24,4 +26,5 @@ class PizzaModel(BaseModel):
     day = models.CharField(max_length=10, choices=DaysChoices.choices)
     pizza_shop = models.ForeignKey(PizzaShopModel, on_delete=models.CASCADE, related_name='pizzas')
     # Всі методи і додатковий функціонал
+    photo = models.ImageField(upload_to=upload_pizza_photo, blank=True)
     objects = PizzaManager()
